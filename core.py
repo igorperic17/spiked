@@ -1,9 +1,10 @@
 
-import nest
+import pyNN.nest as sim
+from encoders import ScalarEncoder
+
 import pdb
 
 class MemoryBuilder:
-
 	# defaults
 	syn_local_inh = {
 		#'model' : 'tsodyks_synapse',
@@ -22,27 +23,33 @@ class MemoryBuilder:
 		'weight' : 10.0
 	}
 	column_neuron_params = { 
-		'V_th' : -61.0, 
-		't_ref' : 1.0,
-		'tau_m' : 10.0
+		'v_thresh' : -61.0, # mV 
+		'tau_refrac' : 2.0, # ms
+		'tau_syn_E' : 2.0, # ms
+		'tau_syn_I' : 2.0
 	}
 	
 	I_e_OFF = 0.0
 	I_e_ON = 1e4
+
+	NEURON_MODEL = sim.IF_curr_exp
+
 	def __init__(self):
 		pass
 
 	@classmethod
 	def InitMemoryUnit(self):
-		nest.ResetKernel()
+		sim.ResetKernel()
 
 	@classmethod
 	def CreateColumn(self, numOfCells, localInhibitionRadius=0):
 
-		column = nest.Create('iaf_neuron', numOfCells, params = self.column_neuron_params)
+		column = sim.create(numOfCells, NEURON_MODEL, self.column_neuron_params, label='blabla')
 
+		# connect column with inhibitory connections
+		inhColumnConnector = sim.FixedProbabilityConnector(0.9, weigths=-10.0)
 		for neuron in column:
-			nest.Connect([neuron], column, syn_spec = self.syn_local_inh)
+			sim.projection(neuron, column, syn_spec = self.syn_local_inh)
 		return column
 
 	@classmethod
@@ -118,33 +125,3 @@ class MemoryBuilder:
 						self.ConnectBasalDendrite(unit[i][p], unit[idx][q])
 
 		return unit
-
-
-###################### ENCODERS ###################
-
-class ScalarEncoder:
-
-	@classmethod
-	def CreateEncoderDefinition(self, size = 10, width = 1, minVal = 0, maxVal = 10):
-		encoder_def = {
-			'size' : size,
-			'width' : width,
-			'minVal' : minVal,
-			'maxVal' : maxVal 
-		}
-		return encoder_def
-
-	@classmethod
-	def CreateEncoderPopulation(self, encoder_def):
-		encoder_pop = nest.Create('iaf_neuron', encoder_def['size'])
-		return encoder_pop
-
-	@classmethod
-	def CreateEncoder(self, size = 10, width = 1, minVal = 0, maxVal = 10):
-		enc_def = CreateEncoderDefinition(size, width, minVal, maxVal)
-		enc_pop = CreateEncoderPopulation(enc_def)
-		return enc_pop
-
-	@classmethod
-	def Encode(self, encoder_def, val_to_encode):
-		pass
