@@ -1,6 +1,7 @@
 
 import pyNN.nest as sim
 from encoders import ScalarEncoder
+from spiked.defaults import *
 
 import pdb
 

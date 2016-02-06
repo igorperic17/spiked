@@ -58,7 +58,6 @@ class ScalarEncoder(object):
 
         # set rates of each Poisson generator in encoder
         self.population.set(rate=pdf)
-        #pdb.set_trace()
 
     def decode(self):
         """
