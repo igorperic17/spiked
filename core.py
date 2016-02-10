@@ -6,34 +6,6 @@ from spiked.defaults import *
 import pdb
 
 class MemoryBuilder:
-	# defaults
-	syn_local_inh = {
-		#'model' : 'tsodyks_synapse',
-		#'tau_rec' : 1000.0, # recovery time
-		#'tau_psc' : 100.0, # ?
-		'delay' : 1.0,
-		'weight': -1000.0
-	}
-	syn_prox_in = {
-		'delay' : 1.0,
-		'weight' : 100.0
-	}
-	syn_basal_in = {
-		'model' : 'stdp_synapse',
-		'delay' : 1.0,
-		'weight' : 10.0
-	}
-	column_neuron_params = { 
-		'v_thresh' : -61.0, # mV 
-		'tau_refrac' : 2.0, # ms
-		'tau_syn_E' : 2.0, # ms
-		'tau_syn_I' : 2.0
-	}
-	
-	I_e_OFF = 0.0
-	I_e_ON = 1e4
-
-	NEURON_MODEL = sim.IF_curr_exp
 
 	def __init__(self):
 		pass

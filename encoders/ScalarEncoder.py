@@ -4,7 +4,9 @@ import numpy as np
 import scipy
 import pdb
 
-class ScalarEncoder(object):
+from spiked.encoders.IEncoder import IEncoder
+
+class ScalarEncoder(IEncoder):
     """
     Object for encoding scalar values into population of neurons.
 
