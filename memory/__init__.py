@@ -1,0 +1,3 @@
+"""
+Implementation of memory components.
+"""
