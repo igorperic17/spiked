@@ -15,7 +15,7 @@ class Column(object):
 		'tau_syn_E' : 2.0, # ms
 		'tau_syn_I' : 2.0
 	}
-    NEURON_MODEL = sim.IF_curr_exp
+    NEURON_MODEL = sim.IF_cond_exp
     SYN_PROX_IN = sim.StaticSynapse(
 		delay = 1.0,
 		weight = 100.0
